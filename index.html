@@ -3,21 +3,19 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>SplitMate — Roommate & Friend Expense Splitter</title>
+<title>SplitMate — Roommate &amp; Friend Expense Splitter</title>
 <style>
   :root {
     --bg: #0f172a;
-    --bg-soft: #1e293b;
     --card: #1e293b;
     --card-soft: #273449;
     --border: #334155;
     --text: #e2e8f0;
-    --text-muted: #94a3b8;
+    --muted: #94a3b8;
     --green: #22c55e;
     --green-soft: rgba(34, 197, 94, 0.12);
     --red: #ef4444;
     --red-soft: rgba(239, 68, 68, 0.12);
-    --amber: #f59e0b;
     --radius: 14px;
     --shadow: 0 10px 30px rgba(2, 6, 23, 0.45);
   }
@@ -27,53 +25,44 @@
   body {
     font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
     background:
-      radial-gradient(1200px 600px at 80% -10%, rgba(34, 197, 94, 0.08), transparent 60%),
-      radial-gradient(1000px 500px at 10% 0%, rgba(245, 158, 11, 0.06), transparent 55%),
+      radial-gradient(1100px 600px at 80% -10%, rgba(34, 197, 94, 0.08), transparent 60%),
+      radial-gradient(900px 500px at 0% 0%, rgba(239, 68, 68, 0.05), transparent 55%),
       var(--bg);
     color: var(--text);
     min-height: 100vh;
     line-height: 1.5;
-    padding: 32px 20px;
+    padding: 30px 18px;
   }
 
-  .wrap {
-    max-width: 1080px;
-    margin: 0 auto;
-  }
+  .wrap { max-width: 1100px; margin: 0 auto; }
 
   header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
+    gap: 14px;
     flex-wrap: wrap;
-    margin-bottom: 28px;
+    margin-bottom: 26px;
   }
 
-  .brand {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
+  .brand { display: flex; align-items: center; gap: 14px; }
 
   .logo {
-    width: 46px;
-    height: 46px;
+    width: 48px;
+    height: 48px;
     border-radius: 12px;
     background: linear-gradient(135deg, var(--green), #059669);
     display: grid;
     place-items: center;
+    font-size: 24px;
     font-weight: 800;
-    font-size: 22px;
     color: #052e16;
     box-shadow: var(--shadow);
   }
 
   h1 { font-size: 26px; letter-spacing: -0.02em; }
   h1 span { color: var(--green); }
-  .tagline { color: var(--text-muted); font-size: 14px; }
-
-  .chip { font-size: 13px; color: var(--text-muted); }
+  .tagline { color: var(--muted); font-size: 14px; }
 
   .grid {
     display: grid;
@@ -81,8 +70,7 @@
     gap: 24px;
     align-items: start;
   }
-
-  @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
+  @media (max-width: 880px) { .grid { grid-template-columns: 1fr; } }
 
   .card {
     background: var(--card);
@@ -94,11 +82,11 @@
   }
 
   .card h2 {
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--text-muted);
+    letter-spacing: 0.07em;
+    color: var(--muted);
     margin-bottom: 16px;
     display: flex;
     align-items: center;
@@ -106,7 +94,7 @@
     gap: 10px;
   }
 
-  .card h2 .badge {
+  .badge {
     background: var(--card-soft);
     color: var(--green);
     font-size: 12px;
@@ -114,13 +102,14 @@
     padding: 2px 10px;
     text-transform: none;
     letter-spacing: 0;
+    font-weight: 700;
   }
 
   label {
     display: block;
     font-size: 13px;
     font-weight: 600;
-    color: var(--text-muted);
+    color: var(--muted);
     margin: 14px 0 6px;
   }
 
@@ -142,8 +131,7 @@
     border-color: var(--green);
     box-shadow: 0 0 0 3px var(--green-soft);
   }
-
-  input::placeholder { color: var(--text-muted); }
+  input::placeholder { color: var(--muted); }
 
   .amount-wrap { position: relative; }
   .amount-wrap .cur {
@@ -165,13 +153,12 @@
     font-size: 14px;
     font-weight: 700;
     cursor: pointer;
-    transition: transform 0.08s, filter 0.15s, background 0.15s;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
+    transition: transform 0.08s, filter 0.15s, background 0.15s;
   }
-
   .btn:active { transform: scale(0.97); }
 
   .btn-green { background: var(--green); color: #052e16; width: 100%; margin-top: 20px; }
@@ -184,19 +171,10 @@
   }
   .btn-ghost:hover { border-color: var(--green); color: var(--green); }
 
-  .btn-danger {
-    background: transparent;
-    color: var(--red);
-    border: 1px solid var(--border);
-    padding: 6px 12px;
-    font-size: 13px;
-  }
-  .btn-danger:hover { background: var(--red-soft); border-color: var(--red); }
-
   .btn-icon {
-    background: transparent;
+    background: none;
     border: none;
-    color: var(--text-muted);
+    color: var(--muted);
     cursor: pointer;
     font-size: 16px;
     padding: 4px 8px;
@@ -205,7 +183,6 @@
   }
   .btn-icon:hover { color: var(--red); background: var(--red-soft); }
 
-  /* ---- Friend list ---- */
   .friends {
     display: flex;
     flex-wrap: wrap;
@@ -224,7 +201,6 @@
     padding: 7px 8px 7px 14px;
     font-size: 14px;
     font-weight: 600;
-    color: var(--text);
     animation: pop 0.2s ease;
   }
 
@@ -234,28 +210,31 @@
   }
 
   .friend-tag .initial {
-    width: 22px; height: 22px;
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
     background: var(--green-soft);
     color: var(--green);
-    display: grid; place-items: center;
-    font-size: 12px; font-weight: 800;
+    display: grid;
+    place-items: center;
+    font-size: 12px;
+    font-weight: 800;
   }
 
   .empty {
-    color: var(--text-muted);
+    color: var(--muted);
     font-size: 14px;
     border: 1px dashed var(--border);
     border-radius: 10px;
     padding: 12px;
     text-align: center;
+    width: 100%;
   }
 
   .add-row { display: flex; gap: 10px; margin-top: 16px; }
   .add-row input { flex: 1; }
   .add-row .btn { padding: 11px 20px; white-space: nowrap; }
 
-  /* ---- Split checkboxes ---- */
   .split-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -264,12 +243,7 @@
   }
 
   .split-item { position: relative; }
-
-  .split-item input {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
-  }
+  .split-item input { position: absolute; opacity: 0; pointer-events: none; }
 
   .split-item label {
     margin: 0;
@@ -279,7 +253,7 @@
     background: var(--bg);
     cursor: pointer;
     font-size: 14px;
-    color: var(--text-muted);
+    color: var(--muted);
     text-align: center;
     user-select: none;
     transition: all 0.15s;
@@ -292,12 +266,11 @@
     font-weight: 700;
   }
 
-  /* ---- Settlement ---- */
   .balance-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     gap: 10px;
-    margin-bottom: 18px;
+    margin-bottom: 20px;
   }
 
   .balance-card {
@@ -307,18 +280,12 @@
     padding: 12px;
     text-align: center;
   }
+  .balance-card .name { font-size: 13px; color: var(--muted); font-weight: 600; }
+  .balance-card .val { font-size: 18px; font-weight: 800; margin-top: 3px; }
 
-  .balance-card .name {
-    font-size: 13px;
-    color: var(--text-muted);
-    font-weight: 600;
-    margin-bottom: 4px;
-  }
-
-  .balance-card .val { font-size: 18px; font-weight: 800; }
-  .pos { color: var(--green); }
-  .neg { color: var(--red); }
-  .zero { color: var(--text-muted); }
+  .pos  { color: var(--green); }
+  .neg  { color: var(--red); }
+  .zero { color: var(--muted); }
 
   .settlements { list-style: none; }
   .settlements li {
@@ -333,31 +300,25 @@
     font-size: 14px;
     animation: pop 0.25s ease;
   }
-
   .settlements .arrow { color: var(--green); font-weight: 800; }
   .settlements .amnt { margin-left: auto; font-weight: 800; color: var(--green); }
-  .settlements .del {
-    background: none; border: none; color: var(--text-muted);
-    cursor: pointer; font-size: 15px; padding: 2px 6px; border-radius: 6px;
-  }
-  .settlements .del:hover { color: var(--red); background: var(--red-soft); }
 
-  /* ---- History ---- */
   .table-scroll {
-    max-height: 320px;
+    max-height: 330px;
     overflow-y: auto;
     border: 1px solid var(--border);
     border-radius: 10px;
   }
 
   table { width: 100%; border-collapse: collapse; font-size: 14px; }
+
   thead th {
     position: sticky;
     top: 0;
     background: var(--card-soft);
-    color: var(--text-muted);
+    color: var(--muted);
     text-align: left;
-    font-size: 12px;
+    font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     padding: 10px 12px;
@@ -367,8 +328,9 @@
   tbody td { padding: 10px 12px; border-top: 1px solid var(--border); }
   tbody tr:hover { background: rgba(148, 163, 184, 0.06); }
 
-  .amount-cell { font-weight: 700; color: var(--text); }
-  .share-list { color: var(--text-muted); font-size: 13px; }
+  .amount-cell { font-weight: 700; }
+  .share-list { color: var(--muted); font-size: 13px; }
+
   .paid-badge {
     background: var(--green-soft);
     color: var(--green);
@@ -397,21 +359,19 @@
     max-width: 90vw;
     text-align: center;
   }
-
   .toast.show { transform: translate(-50%, 0); }
 
   footer {
     text-align: center;
-    color: var(--text-muted);
+    color: var(--muted);
     font-size: 13px;
-    margin-top: 10px;
     opacity: 0.8;
   }
 
   ::-webkit-scrollbar { width: 10px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 999px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+  ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
 </style>
 </head>
 <body>
@@ -430,9 +390,8 @@
 
   <div class="grid">
 
-    <!-- LEFT COLUMN -->
+    <!-- LEFT -->
     <div>
-      <!-- Friends -->
       <section class="card">
         <h2>Friends <span class="badge" id="friendCount">0</span></h2>
         <div class="friends" id="friendList"></div>
@@ -442,7 +401,6 @@
         </div>
       </section>
 
-      <!-- Add Expense -->
       <section class="card">
         <h2>Log an Expense</h2>
 
@@ -458,25 +416,23 @@
         <label for="expPaidBy">Paid By</label>
         <select id="expPaidBy"></select>
 
-        <label>Split Between <span class="chip">(select who shares the cost)</span></label>
+        <label>Split Between</label>
         <div class="split-list" id="splitList"></div>
 
         <button class="btn btn-green" onclick="addExpense()">+ Add Expense</button>
       </section>
     </div>
 
-    <!-- RIGHT COLUMN -->
+    <!-- RIGHT -->
     <div>
-      <!-- Settlement -->
       <section class="card">
         <h2>Net Balances</h2>
         <div class="balance-grid" id="balanceGrid"></div>
 
-        <h2 style="margin-top:4px;">Settlement Summary</h2>
+        <h2>Settlement Summary</h2>
         <ul class="settlements" id="settlementList"></ul>
       </section>
 
-      <!-- History -->
       <section class="card">
         <h2>Transaction History <span class="badge" id="expenseCount">0</span></h2>
         <div class="table-scroll">
@@ -495,9 +451,10 @@
         </div>
       </section>
     </div>
+
   </div>
 
-  <footer>Data is stored locally in your browser via localStorage.</footer>
+  <footer>All data is stored locally in your browser via localStorage.</footer>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -515,30 +472,53 @@
   let expenses = [];
   let toastTimer = null;
 
+  const uid = () =>
+    (crypto.randomUUID ? crypto.randomUUID() : Date.now() + "-" + Math.random());
+
   const fmt = (n) =>
     "₹" + Number(n || 0).toLocaleString("en-IN", {
       minimumFractionDigits: 0,
-      maximumFractionDigits: 2,
+      maximumFractionDigits: 2
     });
 
-  function saveFriends() { localStorage.setItem(FRIENDS_KEY, JSON.stringify(friends)); }
-  function saveExpenses() { localStorage.setItem(EXPENSES_KEY, JSON.stringify(expenses)); }
+  const escapeHtml = (str) =>
+    String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+
+  const round2 = (n) => Math.round(n * 100) / 100;
+
+  /* ---------- Persistence ---------- */
 
   function loadData() {
-    try { friends = JSON.parse(localStorage.getItem(FRIENDS_KEY)) || []; }
-    catch (e) { friends = []; }
-    try { expenses = JSON.parse(localStorage.getItem(EXPENSES_KEY)) || []; }
-    catch (e) { expenses = []; }
+    try {
+      friends = JSON.parse(localStorage.getItem(FRIENDS_KEY)) || [];
+      expenses = JSON.parse(localStorage.getItem(EXPENSES_KEY)) || [];
+    } catch (e) {
+      friends = [];
+      expenses = [];
+    }
     if (!Array.isArray(friends)) friends = [];
     if (!Array.isArray(expenses)) expenses = [];
   }
 
+  function saveFriends() {
+    localStorage.setItem(FRIENDS_KEY, JSON.stringify(friends));
+  }
+
+  function saveExpenses() {
+    localStorage.setItem(EXPENSES_KEY, JSON.stringify(expenses));
+  }
+
   function toast(msg) {
-    const t = $("toast");
-    t.textContent = msg;
-    t.classList.add("show");
+    const el = $("toast");
+    el.textContent = msg;
+    el.classList.add("show");
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => t.classList.remove("show"), 2200);
+    toastTimer = setTimeout(() => el.classList.remove("show"), 2200);
   }
 
   /* ---------- Friends ---------- */
@@ -546,68 +526,65 @@
   function addFriend() {
     const input = $("friendName");
     const name = input.value.trim().replace(/\s+/g, " ");
-    if (!name) { toast("Enter a friend's name first."); input.focus(); return; }
+    if (!name) {
+      toast("Enter a friend's name first.");
+      input.focus();
+      return;
+    }
     if (friends.some((f) => f.name.toLowerCase() === name.toLowerCase())) {
       toast('"' + name + '" is already in the group.');
       return;
     }
-    friends.push({ id: crypto.randomUUID ? crypto.randomUUID() : Date.now() + "" + Math.random(), name: name });
+    friends.push({ id: uid(), name: name });
     saveFriends();
     input.value = "";
     input.focus();
-    renderFriends();
     renderAll();
     toast(name + " added to the group.");
   }
 
   function removeFriend(id) {
-    const f = friends.find((x) => x.id === id);
-    if (!f) return;
-    // Block removal if the friend appears in any existing expense
-    const used = expenses.some(
-      (e) => e.paidBy === id || e.shares.includes(id)
-    );
+    const friend = friends.find((f) => f.id === id);
+    if (!friend) return;
+    const used = expenses.some((e) => e.paidBy === id || e.shares.indexOf(id) !== -1);
     if (used) {
-      toast('"' + f.name + '" is used in expenses. Delete those first.');
+      toast('"' + friend.name + '" is used in expenses. Delete those first.');
       return;
     }
-    friends = friends.filter((x) => x.id !== id);
+    friends = friends.filter((f) => f.id !== id);
     saveFriends();
-    renderFriends();
     renderAll();
-    toast(f.name + " removed from the group.");
+    toast(friend.name + " removed from the group.");
   }
 
   function renderFriends() {
     const box = $("friendList");
     $("friendCount").textContent = friends.length;
     if (!friends.length) {
-      box.innerHTML = '<div class="empty">No friends yet — add someone above to start splitting.</div>';
+      box.innerHTML = '<div class="empty">No friends yet — add someone to start splitting.</div>';
       return;
     }
     box.innerHTML = friends
       .map(
         (f) =>
-          '<span class="friend-tag"><span class="initial">' +
-          escapeHtml(f.name.charAt(0).toUpperCase()) +
-          '</span>' +
+          '<span class="friend-tag">' +
+          '<span class="initial">' + escapeHtml(f.name.charAt(0).toUpperCase()) + "</span>" +
           escapeHtml(f.name) +
-          '<button class="btn-icon" title="Remove" onclick="removeFriend(\'' +
-          f.id + '\')">✕</button></span>'
+          '<button class="btn-icon" title="Remove" onclick="removeFriend(\'' + f.id + '\')">✕</button>' +
+          "</span>"
       )
       .join("");
   }
 
-  function renderPaidByOptions() {
-    const sel = $("expPaidBy");
-    sel.innerHTML =
+  function renderPaidBy() {
+    $("expPaidBy").innerHTML =
       '<option value="">— Select who paid —</option>' +
       friends
         .map((f) => '<option value="' + f.id + '">' + escapeHtml(f.name) + "</option>")
         .join("");
   }
 
-  function renderSplitCheckboxes() {
+  function renderSplitList() {
     const box = $("splitList");
     if (!friends.length) {
       box.innerHTML = '<div class="empty">Add friends to choose who shares the cost.</div>';
@@ -636,16 +613,16 @@
 
     if (!desc) { toast("Enter a description."); $("expDesc").focus(); return; }
     if (!(amount > 0)) { toast("Enter a valid amount greater than 0."); $("expAmount").focus(); return; }
-    if (!paidBy) { toast("Select who paid."); return; }
-    if (shares.length === 0) { toast("Select at least one person to split with."); return; }
+    if (!paidBy) { toast("Select who paid."); $("expPaidBy").focus(); return; }
+    if (!shares.length) { toast("Select at least one person to split with."); return; }
 
     expenses.push({
-      id: crypto.randomUUID ? crypto.randomUUID() : Date.now() + "" + Math.random(),
+      id: uid(),
       desc: desc,
-      amount: Math.round(amount * 100) / 100,
+      amount: round2(amount),
       paidBy: paidBy,
       shares: shares,
-      date: new Date().toISOString(),
+      date: new Date().toISOString()
     });
 
     saveExpenses();
@@ -690,39 +667,36 @@
           '<td class="amount-cell">' + fmt(e.amount) + "</td>" +
           '<td><span class="paid-badge">' + escapeHtml(payerName) + "</span></td>" +
           '<td class="share-list">' + escapeHtml(shareNames) + "</td>" +
-          '<td style="text-align:right;"><button class="btn-icon" title="Delete" onclick="removeExpense(\'' + e.id + '\')">🗑</button></td>' +
+          '<td style="text-align:right;">' +
+          '<button class="btn-icon" title="Delete" onclick="removeExpense(\'' + e.id + '\')">🗑</button>' +
+          "</td>" +
           "</tr>"
         );
       })
       .join("");
   }
 
-  /* ---------- Settlement math ---------- */
+  /* ---------- Settlement ---------- */
 
   function computeBalances() {
     const balance = {};
     friends.forEach((f) => (balance[f.id] = 0));
 
     expenses.forEach((e) => {
-      if (balance[e.paidBy] === undefined) return; // payer removed — skip stale
-      const n = e.shares.length;
-      if (n === 0) return;
-      const share = Math.round((e.amount / n) * 100) / 100;
-      balance[e.paidBy] = Math.round((balance[e.paidBy] + e.amount) * 100) / 100;
+      if (balance[e.paidBy] === undefined || !e.shares.length) return;
+      const share = round2(e.amount / e.shares.length);
+      balance[e.paidBy] = round2(balance[e.paidBy] + e.amount);
       e.shares.forEach((id) => {
         if (balance[id] !== undefined) {
-          balance[id] = Math.round((balance[id] - share) * 100) / 100;
+          balance[id] = round2(balance[id] - share);
         }
       });
     });
 
-    // Push rounding residue onto the payer to guarantee zero-sum
-    Object.keys(balance).forEach((k) => (balance[k] = balance[k] || 0));
-    const sum = Object.values(balance).reduce((a, b) => a + b, 0);
-    if (Math.abs(sum) > 0.004 && friends.length) {
-      const ids = Object.keys(balance);
-      const first = friends.find((f) => balance[f.id] !== 0);
-      if (first) balance[first.id] = Math.round((balance[first.id] - sum) * 100) / 100;
+    const sum = round2(Object.values(balance).reduce((a, b) => a + b, 0));
+    if (Math.abs(sum) > 0.004) {
+      const payer = friends.find((f) => balance[f.id] !== 0);
+      if (payer) balance[payer.id] = round2(balance[payer.id] - sum);
     }
 
     return balance;
@@ -743,9 +717,13 @@
     let i = 0, j = 0;
     while (i < debtors.length && j < creditors.length) {
       const pay = Math.min(debtors[i].amt, creditors[j].amt);
-      transfers.push({ from: debtors[i].id, to: creditors[j].id, amount: Math.round(pay * 100) / 100 });
-      debtors[i].amt = Math.round((debtors[i].amt - pay) * 100) / 100;
-      creditors[j].amt = Math.round((creditors[j].amt - pay) * 100) / 100;
+      transfers.push({
+        from: debtors[i].id,
+        to: creditors[j].id,
+        amount: round2(pay)
+      });
+      debtors[i].amt = round2(debtors[i].amt - pay);
+      creditors[j].amt = round2(creditors[j].amt - pay);
       if (debtors[i].amt <= 0.004) i++;
       if (creditors[j].amt <= 0.004) j++;
     }
@@ -753,31 +731,35 @@
   }
 
   function renderSettlements() {
-    const balance = computeBalances();
-
     const grid = $("balanceGrid");
+    const list = $("settlementList");
+
     if (!friends.length) {
       grid.innerHTML = '<div class="empty">Add friends to see balances.</div>';
-      $("settlementList").innerHTML = '<div class="empty">Nothing to settle yet.</div>';
+      list.innerHTML = '<div class="empty">Nothing to settle yet.</div>';
       return;
     }
+
+    const balance = computeBalances();
+
     grid.innerHTML = friends
       .map((f) => {
-        const b = balance[f.id] || 0;
+        const b = round2(balance[f.id] || 0);
         const cls = b > 0.004 ? "pos" : b < -0.004 ? "neg" : "zero";
         const sign = b > 0 ? "+" : "";
         return (
-          '<div class="balance-card"><div class="name">' + escapeHtml(f.name) +
-          "</div><div class=\"val " + cls + "\">" + sign + fmt(b) + "</div></div>"
+          '<div class="balance-card">' +
+          '<div class="name">' + escapeHtml(f.name) + "</div>" +
+          '<div class="val ' + cls + '">' + sign + fmt(b) + "</div>" +
+          "</div>"
         );
       })
       .join("");
 
-    const list = $("settlementList");
     const transfers = computeSettlements(balance);
 
     if (!transfers.length) {
-      list.innerHTML = '<div class="empty">All settled up — no one owes anyone. 🎉</div>';
+      list.innerHTML = '<div class="empty">All settled up — no one owes anyone.</div>';
       return;
     }
 
@@ -785,13 +767,11 @@
       .map((t) => {
         const from = friends.find((f) => f.id === t.from);
         const to = friends.find((f) => f.id === t.to);
-        const fromName = from ? from.name : "?";
-        const toName = to ? to.name : "?";
         return (
-          '<li>' +
-          "<strong>" + escapeHtml(fromName) + "</strong>" +
+          "<li>" +
+          "<strong>" + escapeHtml(from ? from.name : "?") + "</strong>" +
           '<span class="arrow">owes →</span>' +
-          "<strong>" + escapeHtml(toName) + "</strong>" +
+          "<strong>" + escapeHtml(to ? to.name : "?") + "</strong>" +
           '<span class="amnt">' + fmt(t.amount) + "</span>" +
           "</li>"
         );
@@ -799,9 +779,12 @@
       .join("");
   }
 
+  /* ---------- Wiring ---------- */
+
   function renderAll() {
-    renderPaidByOptions();
-    renderSplitCheckboxes();
+    renderFriends();
+    renderPaidBy();
+    renderSplitList();
     renderHistory();
     renderSettlements();
   }
@@ -812,34 +795,25 @@
     expenses = [];
     saveFriends();
     saveExpenses();
-    renderFriends();
     renderAll();
     toast("All data cleared.");
   }
 
-  function escapeHtml(str) {
-    return String(str)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#39;");
-  }
-
-  /* ---------- Wire up ---------- */
-
-  $("friendName").addEventListener("keydown", (e) => { if (e.key === "Enter") addFriend(); });
-  $("expDesc").addEventListener("keydown", (e) => { if (e.key === "Enter") addExpense(); });
-
-  loadData();
-  renderFriends();
-  renderAll();
+  $("friendName").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") addFriend();
+  });
+  $("expDesc").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") addExpense();
+  });
 
   window.addFriend = addFriend;
   window.removeFriend = removeFriend;
   window.addExpense = addExpense;
   window.removeExpense = removeExpense;
   window.resetAll = resetAll;
+
+  loadData();
+  renderAll();
 })();
 </script>
 </body>
