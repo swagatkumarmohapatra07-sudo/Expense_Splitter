@@ -1,0 +1,23 @@
+{
+  "name": "devvault",
+  "version": "1.0.0",
+  "description": "Smart Study & Project Snippet Vault - store, tag, copy, and search reusable code snippets, study notes, and API endpoints.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [
+    "snippets",
+    "notes",
+    "express",
+    "rest-api"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  }
+}
