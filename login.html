@@ -3,43 +3,123 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Login — SplitMate</title>
+<title>SplitMate — Sign In / Create Group</title>
 <link rel="stylesheet" href="style.css" />
 </head>
 <body class="login-body">
-<div class="login-wrap">
+<div class="login-layout">
 
-  <div class="card login-card">
-    <div class="brand">
-      <div class="logo">₹</div>
-      <div>
-        <h1>Split<span>Mate</span></h1>
-        <div class="tagline">Roommate &amp; Friend Expense Splitter</div>
+  <!-- LEFT: brand / marketing panel -->
+  <div class="login-hero">
+    <div class="hero-inner">
+      <div class="brand">
+        <div class="logo">₹</div>
+        <div>
+          <h1>Split<span>Mate</span></h1>
+          <div class="tagline">Roommate &amp; Friend Expense Splitter</div>
+        </div>
       </div>
+
+      <h2 class="hero-title">Split bills, <span>stay friends.</span></h2>
+      <p class="hero-sub">
+        Track who paid, split every bill, and settle up in seconds — no more "who owes who" arguments.
+      </p>
+
+      <ul class="hero-feats">
+        <li><span class="check">✓</span> Split any bill equally in one tap</li>
+        <li><span class="check">✓</span> Live net balances for everyone</li>
+        <li><span class="check">✓</span> Smart settlement suggestions</li>
+        <li><span class="check">✓</span> Private login for every member</li>
+      </ul>
     </div>
 
-    <div id="loginForm">
-      <label for="username">Username</label>
-      <input type="text" id="username" autocomplete="username" placeholder="e.g. rahul" />
-
-      <label for="password">Password</label>
-      <input type="password" id="password" autocomplete="current-password" placeholder="Your password" />
-
-      <button class="btn btn-green" id="loginBtn">Log In</button>
+    <div class="hero-visual">
+      <div class="vis-card">
+        <span class="dot">R</span>
+        Rahul <span class="arrow">owes →</span>
+        <span class="amt">₹340</span>
+      </div>
+      <div class="vis-card">
+        <span class="dot">P</span>
+        Priya <span class="arrow">owes →</span>
+        <span class="amt">₹120</span>
+      </div>
+      <div class="vis-total">ALL SETTLED UP · NO ONE OWES ANYONE</div>
     </div>
 
-    <div id="setupForm" hidden>
-      <label for="adminUser">Admin Username</label>
-      <input type="text" id="adminUser" autocomplete="username" placeholder="e.g. admin" />
+    <span class="float-rs r1">₹</span>
+    <span class="float-rs r2">₹</span>
+    <span class="float-rs r3">₹</span>
+  </div>
 
-      <label for="adminPass">Admin Password</label>
-      <input type="password" id="adminPass" autocomplete="new-password" placeholder="At least 6 characters" />
+  <!-- RIGHT: auth panel -->
+  <div class="login-panel">
+    <div class="auth-card">
+      <div class="mobile-brand">
+        <div class="brand">
+          <div class="logo">₹</div>
+          <div>
+            <h1>Split<span>Mate</span></h1>
+            <div class="tagline">Roommate &amp; Friend Expense Splitter</div>
+          </div>
+        </div>
+      </div>
 
-      <button class="btn btn-green" id="setupBtn">Create Admin &amp; Log In</button>
+      <div class="auth-head">
+        <h2 id="authTitle">Welcome back</h2>
+        <p class="auth-sub" id="authSub">Log in to your roommate group.</p>
+      </div>
+
+      <div class="auth-tabs">
+        <button class="tab" id="tabLogin">Log In</button>
+        <button class="tab" id="tabSignup">Create Group</button>
+      </div>
+
+      <div id="loginForm">
+        <div class="auth-field">
+          <label for="username">Username</label>
+          <input type="text" id="username" autocomplete="username" placeholder="e.g. rahul" />
+        </div>
+
+        <div class="auth-field">
+          <label for="password">Password</label>
+          <input type="password" id="password" autocomplete="current-password" placeholder="Your password" />
+        </div>
+
+        <button class="btn btn-green auth-btn" id="loginBtn">Log In</button>
+      </div>
+
+      <div id="signupForm" hidden>
+        <div class="auth-field">
+          <label for="gName">Roommate Group Name</label>
+          <input type="text" id="gName" placeholder="e.g. PG 404" maxlength="30" />
+        </div>
+
+        <div class="auth-field">
+          <label for="signupName">Your Name</label>
+          <input type="text" id="signupName" placeholder="e.g. Rahul" maxlength="24" />
+        </div>
+
+        <div class="auth-field">
+          <label for="signupUser">Username</label>
+          <input type="text" id="signupUser" autocomplete="username" placeholder="e.g. rahul" />
+        </div>
+
+        <div class="auth-field">
+          <label for="signupPass">Password</label>
+          <input type="password" id="signupPass" autocomplete="new-password" placeholder="At least 6 characters" />
+        </div>
+
+        <button class="btn btn-green auth-btn" id="signupBtn">Create Group &amp; Log In</button>
+      </div>
+
+      <p class="login-error" id="loginError"></p>
+
+      <p class="login-foot">
+        Created a group? You're the admin — you can add roommates,<br />
+        and each one gets their own private login credential.
+      </p>
     </div>
-
-    <p class="login-error" id="loginError"></p>
-    <p class="tagline" id="loginHint"></p>
   </div>
 
 </div>

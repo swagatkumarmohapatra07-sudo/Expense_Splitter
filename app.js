@@ -5,12 +5,14 @@
   const EXPENSES_KEY = "splitmate_expenses";
   const CREDS_KEY = "splitmate_creds";
   const SESSION_KEY = "splitmate_session";
+  const GROUP_KEY = "splitmate_group";
 
   const $ = (id) => document.getElementById(id);
 
   let friends = [];
   let expenses = [];
   let creds = {};
+  let group = null;
   let currentUser = null;
   let isAdmin = false;
   let toastTimer = null;
@@ -130,6 +132,12 @@
     if (!Array.isArray(friends)) friends = [];
     if (!Array.isArray(expenses)) expenses = [];
     creds = readCreds();
+    try {
+      const g = JSON.parse(localStorage.getItem(GROUP_KEY));
+      group = g && g.id && g.name ? g : null;
+    } catch (e) {
+      group = null;
+    }
   }
 
   function saveFriends() {
@@ -425,6 +433,7 @@
   function renderUserBar() {
     const label = (currentUser.name || currentUser.username) + (isAdmin ? " · Admin" : "");
     $("currentUser").textContent = label;
+    $("groupChip").textContent = group ? "🏠 " + group.name : "";
     $("addFriendRow").hidden = !isAdmin;
     $("adminNote").hidden = isAdmin;
   }

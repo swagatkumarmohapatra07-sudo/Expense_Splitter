@@ -6,7 +6,7 @@
 <title>SplitMate — Roommate &amp; Friend Expense Splitter</title>
 <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body data-page="home">
 <div class="wrap">
 
   <header>
@@ -19,25 +19,34 @@
     </div>
     <div class="user-bar">
       <button class="btn btn-ghost" onclick="resetAll()">Reset All Data</button>
+      <span class="user-chip" id="groupChip"></span>
       <span class="user-chip" id="currentUser"></span>
       <button class="btn btn-ghost" onclick="logout()">Log Out</button>
     </div>
+    <nav class="nav-bar" id="navBar" aria-label="Navigation">
+      <a class="nav-pill" href="index.html" data-page="home">Home</a>
+      <a class="nav-pill" href="friends.html" data-page="friends">Friends <span class="nav-count" id="navFriendCount">0</span></a>
+      <a class="nav-pill" href="balances.html" data-page="balances">Balances</a>
+      <a class="nav-pill" href="history.html" data-page="history">History <span class="nav-count" id="navExpenseCount">0</span></a>
+    </nav>
   </header>
+
+  <section class="hero">
+    <div>
+      <p class="hero-eyebrow" id="homeGroup"></p>
+      <h2 class="hero-title">Welcome back, <span id="homeName"></span></h2>
+      <p class="hero-sub" id="homeSub"></p>
+    </div>
+    <div class="hero-actions">
+      <a class="btn btn-ghost" href="balances.html">View Balances</a>
+      <a class="btn btn-ghost" href="history.html">Full History</a>
+    </div>
+  </section>
 
   <div class="grid">
 
     <!-- LEFT -->
     <div>
-      <section class="card">
-        <h2>Friends <span class="badge" id="friendCount">0</span></h2>
-        <div class="friends" id="friendList"></div>
-        <div class="add-row" id="addFriendRow">
-          <input type="text" id="friendName" placeholder="Add a friend (e.g. Rahul)" maxlength="24" />
-          <button class="btn btn-ghost" onclick="addFriend()">+ Add</button>
-        </div>
-        <p class="admin-note" id="adminNote" hidden>Only the admin can add members.</p>
-      </section>
-
       <section class="card">
         <h2>Log an Expense</h2>
 
@@ -50,42 +59,38 @@
           <input type="number" id="expAmount" placeholder="0.00" min="0" step="0.01" />
         </div>
 
+        <label for="expDate">Date</label>
+        <input type="date" id="expDate" />
+
         <label for="expPaidBy">Paid By</label>
         <select id="expPaidBy"></select>
 
-        <label>Split Between</label>
+        <label>Split Between (or just you)</label>
         <div class="split-list" id="splitList"></div>
+        <div class="split-preview" id="splitPreview"></div>
 
         <button class="btn btn-green" onclick="addExpense()">+ Add Expense</button>
+      </section>
+
+      <section class="card">
+        <h2>Members <span class="badge" id="friendCount">0</span></h2>
+        <div class="friends" id="friendList"></div>
+        <a class="btn btn-ghost btn-block" href="friends.html">Manage Friends</a>
       </section>
     </div>
 
     <!-- RIGHT -->
     <div>
       <section class="card">
-        <h2>Net Balances</h2>
-        <div class="balance-grid" id="balanceGrid"></div>
-
-        <h2>Settlement Summary</h2>
-        <ul class="settlements" id="settlementList"></ul>
+        <h2>Overview</h2>
+        <div class="sum-strip" id="sumStrip"></div>
+        <div class="split-stats" id="splitStats"></div>
       </section>
 
       <section class="card">
-        <h2>Transaction History <span class="badge" id="expenseCount">0</span></h2>
-        <div class="table-scroll">
-          <table>
-            <thead>
-              <tr>
-                <th>Description</th>
-                <th>Amount</th>
-                <th>Paid By</th>
-                <th>Split</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody id="historyBody"></tbody>
-          </table>
-        </div>
+        <h2>Recent Activity</h2>
+        <div class="recent-list" id="recentList"></div>
+        <a class="btn btn-ghost btn-block" href="history.html">View Full History</a>
       </section>
     </div>
 
@@ -95,26 +100,6 @@
 </div>
 
 <div class="toast" id="toast"></div>
-
-<div class="modal-overlay" id="credModal" hidden>
-  <div class="modal card">
-    <h2>New Member Credential</h2>
-    <p>Share these details with <strong id="credName"></strong> — they log in with this username &amp; password.</p>
-    <div class="cred-box">
-      <label>Username</label>
-      <div class="cred-row">
-        <code id="credUser"></code>
-        <button class="btn-icon" title="Copy" onclick="copyCred('credUser')">📋</button>
-      </div>
-      <label>Password</label>
-      <div class="cred-row">
-        <code id="credPass"></code>
-        <button class="btn-icon" title="Copy" onclick="copyCred('credPass')">📋</button>
-      </div>
-    </div>
-    <button class="btn btn-green" onclick="closeCredModal()">Done</button>
-  </div>
-</div>
 
 <script src="app.js"></script>
 </body>
