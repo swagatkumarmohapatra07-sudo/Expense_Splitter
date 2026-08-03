@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Login — SplitMate</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body class="login-body">
+<div class="login-wrap">
+
+  <div class="card login-card">
+    <div class="brand">
+      <div class="logo">₹</div>
+      <div>
+        <h1>Split<span>Mate</span></h1>
+        <div class="tagline">Roommate &amp; Friend Expense Splitter</div>
+      </div>
+    </div>
+
+    <div id="loginForm">
+      <label for="username">Username</label>
+      <input type="text" id="username" autocomplete="username" placeholder="e.g. rahul" />
+
+      <label for="password">Password</label>
+      <input type="password" id="password" autocomplete="current-password" placeholder="Your password" />
+
+      <button class="btn btn-green" id="loginBtn">Log In</button>
+    </div>
+
+    <div id="setupForm" hidden>
+      <label for="adminUser">Admin Username</label>
+      <input type="text" id="adminUser" autocomplete="username" placeholder="e.g. admin" />
+
+      <label for="adminPass">Admin Password</label>
+      <input type="password" id="adminPass" autocomplete="new-password" placeholder="At least 6 characters" />
+
+      <button class="btn btn-green" id="setupBtn">Create Admin &amp; Log In</button>
+    </div>
+
+    <p class="login-error" id="loginError"></p>
+    <p class="tagline" id="loginHint"></p>
+  </div>
+
+</div>
+
+<script src="login.js"></script>
+</body>
+</html>
