@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Balances — SplitMate</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="balances">
+<div class="wrap">
+
+  <header>
+    <div class="brand">
+      <div class="logo">₹</div>
+      <div>
+        <h1>Split<span>Mate</span></h1>
+        <div class="tagline">Roommate &amp; Friend Expense Splitter</div>
+      </div>
+    </div>
+    <div class="user-bar">
+      <button class="btn btn-ghost" onclick="resetAll()">Reset All Data</button>
+      <span class="user-chip" id="groupChip"></span>
+      <span class="user-chip" id="currentUser"></span>
+      <button class="btn btn-ghost" onclick="logout()">Log Out</button>
+    </div>
+    <nav class="nav-bar" id="navBar" aria-label="Navigation">
+      <a class="nav-pill" href="index.html" data-page="home">Home</a>
+      <a class="nav-pill" href="friends.html" data-page="friends">Friends <span class="nav-count" id="navFriendCount">0</span></a>
+      <a class="nav-pill" href="balances.html" data-page="balances">Balances</a>
+      <a class="nav-pill" href="history.html" data-page="history">History <span class="nav-count" id="navExpenseCount">0</span></a>
+    </nav>
+  </header>
+
+  <section class="card">
+    <h2>Net Balances</h2>
+    <div class="sum-strip" id="sumStrip"></div>
+    <div class="split-stats" id="splitStats"></div>
+    <div class="balance-grid" id="balanceGrid"></div>
+
+    <h2>Settlement Summary</h2>
+    <ul class="settlements" id="settlementList"></ul>
+  </section>
+
+  <footer>All data is stored locally in your browser via localStorage.</footer>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>

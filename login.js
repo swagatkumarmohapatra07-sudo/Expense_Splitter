@@ -41,6 +41,7 @@
     $("signupForm").hidden = login;
     $("tabLogin").classList.toggle("active", login);
     $("tabSignup").classList.toggle("active", !login);
+    $("tabIndicator").style.transform = login ? "translateX(0)" : "translateX(100%)";
     if (login) {
       $("authTitle").textContent = "Welcome back";
       $("authSub").textContent = "Log in to your roommate group.";
@@ -50,6 +51,21 @@
     }
     setError("");
   }
+
+  function setLoading(btn, label) {
+    btn.classList.add("loading");
+    btn.querySelector(".btn-label").textContent = label;
+  }
+
+  document.querySelectorAll(".pw-toggle").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const input = $(btn.dataset.target);
+      const show = input.type === "password";
+      input.type = show ? "text" : "password";
+      btn.classList.toggle("show", show);
+      btn.setAttribute("aria-label", show ? "Hide password" : "Show password");
+    });
+  });
 
   function doLogin() {
     const u = $("username").value.trim();
@@ -66,8 +82,9 @@
       setError("Invalid username or password.");
       return;
     }
+    setLoading($("loginBtn"), "Signing in…");
     localStorage.setItem(SESSION_KEY, entry[0]);
-    redirect();
+    setTimeout(redirect, 350);
   }
 
   function doSignup() {
@@ -84,11 +101,19 @@
       setError("That username is already taken.");
       return;
     }
-    creds["admin"] = { username: u, password: p, isAdmin: true, name: name };
+    setLoading($("signupBtn"), "Creating group…");
+    creds["admin"] = {
+      username: u,
+      password: p,
+      isAdmin: true,
+      name: name,
+      createdBy: "Self (group creator)",
+      createdAt: new Date().toISOString()
+    };
     localStorage.setItem(CREDS_KEY, JSON.stringify(creds));
     localStorage.setItem(GROUP_KEY, JSON.stringify({ id: uid(), name: gname }));
     localStorage.setItem(SESSION_KEY, "admin");
-    redirect();
+    setTimeout(redirect, 350);
   }
 
   $("loginBtn").addEventListener("click", doLogin);

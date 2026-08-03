@@ -12,6 +12,12 @@
   <!-- LEFT: brand / marketing panel -->
   <div class="login-hero">
     <div class="hero-inner">
+      <div class="hero-status">
+        <span class="status-dot"></span>
+        <span>System online</span>
+        <span class="status-sep">·</span>
+        <span>Balances synced</span>
+      </div>
       <div class="brand">
         <div class="logo">₹</div>
         <div>
@@ -34,17 +40,90 @@
     </div>
 
     <div class="hero-visual">
-      <div class="vis-card">
-        <span class="dot">R</span>
-        Rahul <span class="arrow">owes →</span>
-        <span class="amt">₹340</span>
+      <div class="flow-wrap">
+        <div class="flow-label">Live settlement network</div>
+
+        <svg class="flow-svg" viewBox="0 0 380 310" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="gradYou" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#34d399" />
+              <stop offset="1" stop-color="#0ea5a4" />
+            </linearGradient>
+            <linearGradient id="gradPriya" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#22d3ee" />
+              <stop offset="1" stop-color="#0ea5a4" />
+            </linearGradient>
+            <linearGradient id="gradSameer" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#fb7185" />
+              <stop offset="1" stop-color="#e11d48" />
+            </linearGradient>
+            <linearGradient id="gradRahul" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#a78bfa" />
+              <stop offset="1" stop-color="#8b5cf6" />
+            </linearGradient>
+          </defs>
+
+          <path id="lineA" class="flow-line" d="M 108 136 C 118 84, 148 66, 176 64" />
+          <path id="lineB" class="flow-line" d="M 204 64 C 232 66, 262 84, 272 136" />
+          <path id="lineC" class="flow-line line-settled" d="M 276 162 C 262 214, 226 240, 204 248" />
+
+          <path class="flow-dash dash-green" d="M 108 136 C 118 84, 148 66, 176 64" />
+          <path class="flow-dash dash-cyan" d="M 204 64 C 232 66, 262 84, 272 136" />
+
+          <g>
+            <text class="flow-rupee t-green">₹</text>
+            <animateMotion dur="3.4s" repeatCount="indefinite">
+              <mpath href="#lineA" />
+            </animateMotion>
+          </g>
+          <g>
+            <text class="flow-rupee t-cyan">₹</text>
+            <animateMotion dur="2.6s" repeatCount="indefinite" begin="1s">
+              <mpath href="#lineB" />
+            </animateMotion>
+          </g>
+          <g>
+            <text class="flow-check t-violet">✓</text>
+            <animateMotion dur="4s" repeatCount="indefinite" begin="0.6s">
+              <mpath href="#lineC" />
+            </animateMotion>
+          </g>
+
+          <g class="flow-node">
+            <circle class="flow-avatar" cx="190" cy="52" r="24" fill="url(#gradYou)" />
+            <text x="190" y="53" class="node-letter" text-anchor="middle" dominant-baseline="central">Y</text>
+            <text x="190" y="12" class="node-name" text-anchor="middle">You</text>
+          </g>
+
+          <g class="flow-node">
+            <circle class="flow-avatar" cx="88" cy="148" r="24" fill="url(#gradPriya)" />
+            <text x="88" y="149" class="node-letter" text-anchor="middle" dominant-baseline="central">P</text>
+            <text x="88" y="186" class="node-name" text-anchor="middle">Friend-01</text>
+          </g>
+
+          <g class="flow-node">
+            <circle class="flow-avatar" cx="292" cy="148" r="24" fill="url(#gradSameer)" />
+            <text x="292" y="149" class="node-letter" text-anchor="middle" dominant-baseline="central">S</text>
+            <text x="292" y="186" class="node-name" text-anchor="middle">Friend-02</text>
+          </g>
+
+          <g class="flow-node">
+            <circle class="flow-avatar" cx="190" cy="258" r="24" fill="url(#gradRahul)" />
+            <text x="190" y="259" class="node-letter" text-anchor="middle" dominant-baseline="central">R</text>
+            <text x="190" y="232" class="node-name" text-anchor="middle">Friend-03</text>
+          </g>
+        </svg>
+
+        <span class="flow-pill pill-owe">₹2,150 · owes you</span>
+        <span class="flow-pill pill-you">₹850 · you owe</span>
+        <span class="flow-pill pill-ok">✓ settled</span>
       </div>
-      <div class="vis-card">
-        <span class="dot">P</span>
-        Priya <span class="arrow">owes →</span>
-        <span class="amt">₹120</span>
+
+      <div class="hero-stats">
+        <div><strong>12k+</strong><span>bills split</span></div>
+        <div><strong>₹4.2Cr</strong><span>tracked</span></div>
+        <div><strong>98%</strong><span>settled</span></div>
       </div>
-      <div class="vis-total">ALL SETTLED UP · NO ONE OWES ANYONE</div>
     </div>
 
     <span class="float-rs r1">₹</span>
@@ -70,7 +149,8 @@
         <p class="auth-sub" id="authSub">Log in to your roommate group.</p>
       </div>
 
-      <div class="auth-tabs">
+      <div class="auth-tabs" id="authTabs">
+        <span class="tab-indicator" id="tabIndicator"></span>
         <button class="tab" id="tabLogin">Log In</button>
         <button class="tab" id="tabSignup">Create Group</button>
       </div>
@@ -78,47 +158,91 @@
       <div id="loginForm">
         <div class="auth-field">
           <label for="username">Username</label>
-          <input type="text" id="username" autocomplete="username" placeholder="e.g. rahul" />
+          <div class="input-wrap">
+            <span class="input-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </span>
+            <input type="text" id="username" autocomplete="username" placeholder="e.g. rahul" />
+          </div>
         </div>
 
         <div class="auth-field">
           <label for="password">Password</label>
-          <input type="password" id="password" autocomplete="current-password" placeholder="Your password" />
+          <div class="input-wrap">
+            <span class="input-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </span>
+            <input type="password" id="password" autocomplete="current-password" placeholder="Your password" />
+            <button type="button" class="pw-toggle" data-target="password" aria-label="Show password">
+              <svg class="eye-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+              <svg class="eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 10 8 10 8a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.53 13.53 0 0 0 2 12s3 8 10 8a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" x2="22" y1="2" y2="22"/></svg>
+            </button>
+          </div>
         </div>
 
-        <button class="btn btn-green auth-btn" id="loginBtn">Log In</button>
+        <button class="btn btn-green auth-btn" id="loginBtn"><span class="btn-label">Log In</span></button>
       </div>
 
       <div id="signupForm" hidden>
         <div class="auth-field">
           <label for="gName">Roommate Group Name</label>
-          <input type="text" id="gName" placeholder="e.g. PG 404" maxlength="30" />
+          <div class="input-wrap">
+            <span class="input-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </span>
+            <input type="text" id="gName" placeholder="e.g. PG 404" maxlength="30" />
+          </div>
         </div>
 
         <div class="auth-field">
           <label for="signupName">Your Name</label>
-          <input type="text" id="signupName" placeholder="e.g. Rahul" maxlength="24" />
+          <div class="input-wrap">
+            <span class="input-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/></svg>
+            </span>
+            <input type="text" id="signupName" placeholder="e.g. Rahul" maxlength="24" />
+          </div>
         </div>
 
         <div class="auth-field">
           <label for="signupUser">Username</label>
-          <input type="text" id="signupUser" autocomplete="username" placeholder="e.g. rahul" />
+          <div class="input-wrap">
+            <span class="input-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </span>
+            <input type="text" id="signupUser" autocomplete="username" placeholder="e.g. rahul" />
+          </div>
         </div>
 
         <div class="auth-field">
           <label for="signupPass">Password</label>
-          <input type="password" id="signupPass" autocomplete="new-password" placeholder="At least 6 characters" />
+          <div class="input-wrap">
+            <span class="input-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2 19 4m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777Zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+            </span>
+            <input type="password" id="signupPass" autocomplete="new-password" placeholder="At least 6 characters" />
+            <button type="button" class="pw-toggle" data-target="signupPass" aria-label="Show password">
+              <svg class="eye-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+              <svg class="eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 10 8 10 8a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.53 13.53 0 0 0 2 12s3 8 10 8a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" x2="22" y1="2" y2="22"/></svg>
+            </button>
+          </div>
         </div>
 
-        <button class="btn btn-green auth-btn" id="signupBtn">Create Group &amp; Log In</button>
+        <button class="btn btn-green auth-btn" id="signupBtn"><span class="btn-label">Create Group &amp; Log In</span></button>
       </div>
 
       <p class="login-error" id="loginError"></p>
 
-      <p class="login-foot">
-        Created a group? You're the admin — you can add roommates,<br />
-        and each one gets their own private login credential.
-      </p>
+      <div class="login-foot">
+        <p>
+          Created a group? You're the admin — you can add roommates,<br />
+          and each one gets their own private login credential.
+        </p>
+        <p class="login-secure">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Passwords stay in your browser — no server, fully private.
+        </p>
+      </div>
     </div>
   </div>
 
