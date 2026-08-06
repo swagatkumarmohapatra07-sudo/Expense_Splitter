@@ -408,6 +408,132 @@ a.btn { text-decoration: none; }
   .hero-actions .btn { width: 100%; }
 }
 
+/* ---------- Dashboard status banner ---------- */
+
+.dash-hero { align-items: center; }
+
+.hero-copy { flex: 1 1 300px; min-width: 0; }
+.hero-actions { margin-top: 16px; }
+
+.hero-net {
+  position: relative;
+  overflow: hidden;
+  flex: none;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 20px 24px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: 0 14px 34px rgba(2, 6, 23, 0.4);
+}
+.hero-net::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  background: var(--green);
+}
+.hero-net.net-neg::before { background: var(--red); }
+.hero-net.net-zero::before { background: var(--muted); }
+
+.hero-net .net-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+.net-amount {
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+.net-sub { color: var(--muted); font-size: 13px; }
+.hero-net .btn { margin-top: 10px; }
+
+@media (max-width: 760px) {
+  .hero-net { width: 100%; }
+}
+
+/* ---------- Quick stats row ---------- */
+
+.stats-row .sum-strip { margin-bottom: 24px; }
+
+/* ---------- Settlement preview ---------- */
+
+.settle-preview { display: flex; flex-direction: column; gap: 8px; }
+.settle-preview-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  animation: pop 0.25s ease;
+}
+.settle-preview-item .arrow {
+  color: var(--green);
+  font-weight: 800;
+  font-size: 13px;
+  white-space: nowrap;
+}
+.settle-preview-item .amnt {
+  margin-left: auto;
+  font-weight: 800;
+  color: var(--green);
+  white-space: nowrap;
+}
+.settle-avatar {
+  width: 30px;
+  height: 30px;
+  flex: none;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #10b981, #0ea5a4);
+  color: #04151a;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 13px;
+}
+
+/* ---------- Expense form layout ---------- */
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.form-col label { margin-top: 0; }
+.form-col + .form-col label { margin-top: 14px; }
+.form-col-narrow { max-width: 150px; }
+@media (max-width: 560px) {
+  .form-row { grid-template-columns: 1fr; }
+  .form-col-narrow { max-width: none; }
+}
+
+/* ---------- Recent activity avatars ---------- */
+
+.recent-avatar {
+  width: 38px;
+  height: 38px;
+  flex: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #10b981, #0ea5a4);
+  color: #04151a;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 15px;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+.recent-amt { margin-left: 4px; }
+
 .btn-icon {
   background: none;
   border: none;
@@ -595,16 +721,28 @@ a.btn { text-decoration: none; }
 .sum-strip {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-  gap: 8px;
+  gap: 10px;
   margin-bottom: 16px;
 }
 .sum-item {
+  position: relative;
+  overflow: hidden;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  padding: 10px;
+  padding: 12px 10px;
   text-align: center;
 }
+.sum-item::after {
+  content: "";
+  position: absolute;
+  inset: auto 20% -1px;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--border);
+}
+.sum-item:has(strong.pos)::after { background: var(--green); }
+.sum-item:has(strong.neg)::after { background: var(--red); }
 .sum-item span {
   display: block;
   font-size: 11px;
@@ -612,9 +750,9 @@ a.btn { text-decoration: none; }
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-bottom: 2px;
+  margin-bottom: 3px;
 }
-.sum-item strong { font-size: 16px; font-weight: 800; }
+.sum-item strong { font-size: 17px; font-weight: 800; }
 
 .pos  { color: var(--green); }
 .neg  { color: var(--red); }

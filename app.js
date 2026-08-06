@@ -7,6 +7,7 @@
   const SESSION_KEY = "splitmate_session";
   const GROUP_KEY = "splitmate_group";
   const SETTLED_KEY = "splitmate_settled";
+  const DISMISSED_KEY = "splitmate_dismissed";
 
   const $ = (id) => document.getElementById(id);
 
@@ -17,6 +18,7 @@
   let expenses = [];
   let creds = {};
   let settled = new Set();
+  let dismissed = new Set();
   let group = null;
   let currentUser = null;
   let currentUserId = null;
@@ -186,6 +188,12 @@
       settled = new Set();
     }
     try {
+      const arr = JSON.parse(localStorage.getItem(DISMISSED_KEY));
+      dismissed = new Set(Array.isArray(arr) ? arr : []);
+    } catch (e) {
+      dismissed = new Set();
+    }
+    try {
       const g = JSON.parse(localStorage.getItem(GROUP_KEY));
       group = g && g.id && g.name ? g : null;
     } catch (e) {
@@ -203,6 +211,10 @@
 
   function saveSettled() {
     localStorage.setItem(SETTLED_KEY, JSON.stringify(Array.from(settled)));
+  }
+
+  function saveDismissed() {
+    localStorage.setItem(DISMISSED_KEY, JSON.stringify(Array.from(dismissed)));
   }
 
   function toast(msg) {
@@ -713,6 +725,17 @@
 
   function computeSettlementData() {
     const balance = computeBalances();
+    Array.from(dismissed).forEach((key) => {
+      const parts = key.split("|");
+      const from = parts[0];
+      const to = parts[1];
+      const amt = parseFloat(parts[2]);
+      if (isNaN(amt)) return;
+      if (balance[from] !== undefined) balance[from] = round2(balance[from] + amt);
+      if (balance[to] !== undefined) balance[to] = round2(balance[to] - amt);
+      dismissed.delete(key);
+    });
+    saveDismissed();
     const baseTransfers = computeSettlements(balance);
     const validKeys = baseTransfers.map(transferKey);
     let pruned = false;
@@ -749,6 +772,20 @@
     saveSettled();
     renderAll();
     flashBalance();
+  }
+
+  function deleteSettled(key) {
+    const parts = key.split("|");
+    const label =
+      getName(parts[0]) + " → " + getName(parts[1]) + " " + fmt(parseFloat(parts[2]) || 0);
+    if (!confirm('Permanently remove "' + label + '" from settlements?')) return;
+    dismissed.add(key);
+    settled.delete(key);
+    saveDismissed();
+    saveSettled();
+    renderAll();
+    flashBalance();
+    toast("Settlement removed.");
   }
 
   function undoPaid() {
@@ -879,8 +916,8 @@
             '<span class="arrow">pays →</span>' +
             "<strong>" + escapeHtml(getName(t.to)) + "</strong>" +
             '<span class="amnt">' + fmt(t.amount) + "</span>" +
-            '<button class="btn-icon btn-del" title="Delete settled payment" onclick="togglePaid(\'' + key + '\')">🗑</button>' +
-            '<button class="btn-undo" title="Restore" onclick="togglePaid(\'' + key + '\')">Restore</button>' +
+            '<button class="btn-icon btn-del" title="Delete settled payment" onclick="deleteSettled(\'' + key + '\')">🗑</button>' +
+            '<button class="btn-undo" title="Restore to pending" onclick="togglePaid(\'' + key + '\')">Restore</button>' +
             "</div>"
           );
         })
@@ -961,11 +998,13 @@
     box.innerHTML = recent
       .map((e) => {
         const status = buildStatusBadge(e, unpaidMatrix);
+        const payer = getName(e.paidBy);
         return (
           '<div class="recent-item">' +
+          '<span class="recent-avatar">' + escapeHtml((payer || "?").charAt(0).toUpperCase()) + "</span>" +
           '<div class="recent-main">' +
           "<strong>" + escapeHtml(e.desc) + "</strong>" +
-          '<span class="recent-date">' + formatDateShort(e.date) + " · " + escapeHtml(getName(e.paidBy)) + "</span>" +
+          '<span class="recent-date">' + formatDateShort(e.date) + " · " + escapeHtml(payer) + "</span>" +
           "</div>" +
           '<span class="recent-amt">' + fmt(e.amount) + "</span>" +
           status +
@@ -975,25 +1014,78 @@
       .join("");
   }
 
+  function renderNetCard() {
+    const card = $("netCard");
+    const amountEl = $("netAmount");
+    const subEl = $("netSub");
+    if (!card || !amountEl || !subEl) return;
+    const data = computeSettlementData();
+    const me = round2(data.outstanding[ME_ID] || 0);
+    const getsBack = me > 0.004;
+    const owes = me < -0.004;
+    if (getsBack) {
+      card.className = "hero-net net-pos";
+      amountEl.className = "net-amount pos";
+      amountEl.textContent = "+" + fmt(me);
+      subEl.textContent = "People owe you " + fmt(me) + " in total.";
+    } else if (owes) {
+      card.className = "hero-net net-neg";
+      amountEl.className = "net-amount neg";
+      amountEl.textContent = "−" + fmt(-me);
+      subEl.textContent = "You owe " + fmt(-me) + " in total.";
+    } else {
+      card.className = "hero-net net-zero";
+      amountEl.className = "net-amount zero";
+      amountEl.textContent = "₹0";
+      subEl.textContent = "You're all settled up. Everyone is even.";
+    }
+  }
+
+  function renderHomeSettlements() {
+    const list = $("settlePreview");
+    if (!list) return;
+    const data = computeSettlementData();
+    const transfers = computeSettlements(data.outstanding);
+    if (!transfers.length) {
+      if (!expenses.length) {
+        list.innerHTML = '<div class="empty">Log your first expense to see who owes whom.</div>';
+      } else {
+        list.innerHTML = '<div class="empty">All settled up — no one owes anyone.</div>';
+      }
+      return;
+    }
+    list.innerHTML = transfers
+      .slice(0, 4)
+      .map(
+        (t) =>
+          '<div class="settle-preview-item">' +
+          '<span class="settle-avatar">' + escapeHtml(getName(t.from).charAt(0).toUpperCase()) + "</span>" +
+          "<strong>" + escapeHtml(getName(t.from)) + "</strong>" +
+          '<span class="arrow">pays →</span>' +
+          "<strong>" + escapeHtml(getName(t.to)) + "</strong>" +
+          '<span class="amnt">' + fmt(t.amount) + "</span>" +
+          "</div>"
+      )
+      .join("");
+  }
+
   function renderHome() {
     const name = currentUser ? currentUser.name || currentUser.username : "";
     if ($("homeName")) $("homeName").textContent = name;
     if ($("homeGroup")) $("homeGroup").textContent = group ? "🏠 " + group.name : "SplitMate Group";
     if ($("homeSub")) {
-      const data = computeSettlementData();
-      const me = round2(data.outstanding[ME_ID] || 0);
+      const expCount = expenses.length;
+      const memCount = friends.length + 1;
       $("homeSub").textContent =
-        me > 0.004
-          ? "You get back " + fmt(me)
-          : me < -0.004
-            ? "You owe " + fmt(-me)
-            : "You're all settled up";
+        expCount + (expCount === 1 ? " expense" : " expenses") +
+        " · " + memCount + (memCount === 1 ? " member" : " members");
     }
     if ($("friendCount")) $("friendCount").textContent = friends.length;
     const box = $("friendList");
     if (box) box.innerHTML = buildMemberTags(true);
+    renderNetCard();
     renderSumStrip();
-    renderSplitStats();
+    renderHomeSettlements();
     renderRecent();
   }
 
@@ -1038,11 +1130,15 @@
     if (!confirm("Remove ALL friends, expenses and member accounts? This cannot be undone.")) return;
     friends = [];
     expenses = [];
+    settled = new Set();
+    dismissed = new Set();
     Object.keys(creds).forEach((id) => {
       if (!creds[id].isAdmin) delete creds[id];
     });
     saveFriends();
     saveExpenses();
+    saveSettled();
+    saveDismissed();
     saveCreds();
     renderAll();
     toast("All data cleared.");
@@ -1098,6 +1194,7 @@
   window.changePassword = changePassword;
   window.deleteSelectedFriend = deleteSelectedFriend;
   window.togglePaid = togglePaid;
+  window.deleteSettled = deleteSettled;
   window.undoPaid = undoPaid;
 
   /* ---------- Init ---------- */
